@@ -5,7 +5,7 @@ require_once "_header.php";
 
 // creation des dates
 $presentTime = new DateTime();
-$destinationTime = new DateTime("06/25/2512 02:15:00");
+$destinationTime = new DateTime("06/25/". rand(2200,3500) . " 02:15:00");
 
 
 // code html ( structure , apelle les fontion php de constructions
@@ -16,7 +16,7 @@ $destinationTime = new DateTime("06/25/2512 02:15:00");
             <?php titleLine() ?>
         </div>
         <div class="row">
-            <?php dateLine($destinationTime,"orange") ?>
+            <?php dateLine($destinationTime, "orange") ?>
         </div>
         <div class="row">
             <div class="col-4 col-centered destination">
@@ -28,11 +28,16 @@ $destinationTime = new DateTime("06/25/2512 02:15:00");
             <?php titleLine() ?>
         </div>
         <div class="row">
-            <?php dateLine($presentTime,"green") ?>
+            <?php dateLine($presentTime, "green") ?>
         </div>
         <div class="row">
             <div class="col-4 col-centered destination">
-                DESTINATION TIME
+                PRESENT TIME
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-centered destination bg-red">
+                Interal Time : <?php echo interveTine($presentTime,$destinationTime)?>
             </div>
         </div>
     </div>
@@ -85,38 +90,38 @@ function titleLine()
  * @param DateTime $newDate date a affiche dans les cases.
  * @param string $colorDate parametre servant a changer la coleur des champ de dates dans les cases
  */
-function dateLine(DateTime $newDate , string $colorDate="orange")
+function dateLine(DateTime $newDate, string $colorDate = "orange")
 {
     /**
      * changement de la couleur du point am / pm  en fontion de l'heure de la journée , utilisation de du  retour d'heure format 24H pour determine am / pm
      */
-       if($newDate->format(H)>12){
-           $colorDotAM="orange";
-           $colorDotPM="green";
-       } else {
-           $colorDotAM="green";
-           $colorDotPM="orange";
-}
+    if ($newDate->format(H) > 12) {
+        $colorDotAM = "orange";
+        $colorDotPM = "green";
+    } else {
+        $colorDotAM = "green";
+        $colorDotPM = "orange";
+    }
 
     ?>
 
     <div class="col-1"></div>
     <div class="col-1"></div>
     <div class="col-1 datestyle <?php echo $colorDate ?>">
-        <?PHP echo strtoupper($newDate->format("M"))  ?>
+        <?PHP echo strtoupper($newDate->format("M")) ?>
     </div>
     <div class="col-1 datestyle <?php echo $colorDate ?>">
 
-        <?PHP echo $newDate->format("d")  ?>
+        <?PHP echo $newDate->format("d") ?>
     </div>
     <div class="col-1 datestyle <?php echo $colorDate ?>">
         <?PHP echo $newDate->format("Y") ?>
     </div>
     <div class="col-1 align-self-center container-am-pm">
         <div class="am-pm ">AM</div>
-        <div class="point point-<?php echo  $colorDotAM?>"></div>
+        <div class="point point-<?php echo $colorDotAM ?>"></div>
         <div class="am-pm">PM</div>
-        <div class="point point-<?php echo  $colorDotPM?>"></div>
+        <div class="point point-<?php echo $colorDotPM ?>"></div>
     </div>
     <div class="col-1 datestyle <?php echo $colorDate ?>">
         <?PHP echo $newDate->format("h") ?>
@@ -125,10 +130,20 @@ function dateLine(DateTime $newDate , string $colorDate="orange")
         :
     </div>
     <div class="col-1 datestyle <?php echo $colorDate ?>">
-        <?PHP echo$newDate->format("i")  ?>
+        <?PHP echo $newDate->format("i") ?>
     </div>
     <div class="col-1"></div>
     <div class="col-1"></div>
     <div class="col-1"></div>
     <?php
 }
+
+function interveTine(DateTime $presentTime, DateTime $destinationTime) : string
+{
+    $difference = $destinationTime->diff($presentTime);
+    $carburant = ($destinationTime->getTimestamp()-$presentTime->getTimestamp())/25000;
+
+    return  "YEARS [ " .$difference->y .  "]  MOUNTH [ " . $difference->m ."] DAYS [ " . $difference->d .  "] , Cost in Banana ---> " . (int)$carburant  ;
+
+}
+

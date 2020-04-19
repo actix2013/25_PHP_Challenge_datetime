@@ -12,7 +12,6 @@
 .datestyle{
     font-family: 'Monofett', cursive;
     background-color: black;
-
     font-size: 2em;
     text-align: center;
     min-width: 5vh;
@@ -20,6 +19,8 @@
     border: 1px solid white;
 
 }
+
+
 
 .orange{
     color : darkorange;
@@ -39,6 +40,13 @@
     margin : 5px;
 
 }
+
+.bg-red{
+    background-color: red;
+    color: white;
+
+}
+
 
 .mainbox{
     background-color: slategrey;
